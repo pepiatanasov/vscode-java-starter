@@ -1,0 +1,200 @@
+/*
+    VS Code Tasks for Gradle Java Projects
+
+    Many tasks in this file use:
+      export $(grep -v '^#' .env.test | xargs)
+    This loads environment variables from the .env.test file before running Gradle commands.
+    - Place your development/test environment variables in .env.test at the project root.
+    - Lines starting with # are ignored as comments.
+    - Do NOT store production secrets in .env.test.
+    - You can duplicate tasks for other environments (e.g., .env.dev, .env.prod) if needed.
+
+    For more info, see: https://code.visualstudio.com/docs/editor/tasks
+*/
+
+{
+    "version": "2.0.0",
+    "tasks": [
+        //
+        // Build Tasks
+        //
+        {
+            "type": "shell",
+            "label": "Assemble Project (No Tests)",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew assemble",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "detail": "Compile the project without running tests"
+        },
+        {
+            "type": "shell",
+            "label": "Build: Run Build with all tests",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew build",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Run Gradle Build with all tests"
+        },
+        {
+            "type": "shell",
+            "label": "Build: Production Env Example",
+            "command": "export $(grep -v '^#' .env.prod | xargs) && ./gradlew build",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Run build with production environment variables"
+        },
+
+        //
+        // Clean Task
+        //
+        {
+            "type": "shell",
+            "label": "Clean Project",
+            "command": "./gradlew clean",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Clean build artifacts"
+        },
+
+        //
+        // Check Task
+        //
+        {
+            "type": "shell",
+            "label": "Check: Run All Checks",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew check",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Run all verification tasks (tests, lint, etc.)"
+        },
+
+        //
+        // Format Task
+        //
+        {
+            "type": "shell",
+            "label": "Format: Apply Code Formatter",
+            "command": "./gradlew spotlessApply",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Apply code formatting using Spotless (if configured)"
+        },
+
+        //
+        // Lint Task
+        //
+        {
+            "type": "shell",
+            "label": "Lint: Run Static Analysis",
+            "command": "./gradlew lint",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Run static code analysis (if configured)"
+        },
+
+        //
+        // Test Tasks
+        //
+        {
+            "type": "shell",
+            "label": "Test: Debug All Tests",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew test --debug-jvm",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "detail": "Run all tests in debug mode"
+        },
+        {
+            "type": "shell",
+            "label": "Test: Debug All Unit Tests",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew test --tests \"com.example.unit.*\" --debug-jvm",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Run all unit test cases with debugger enabled"
+        },
+        {
+            "type": "shell",
+            "label": "Test: Debug All Integration Tests",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew test --tests \"com.example.integration.*\" --debug-jvm",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Run all integration test cases with debugger enabled"
+        },
+        {
+            "type": "shell",
+            "label": "Test: Debug Feature Services Unit Tests",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew test --tests \"com.example.unit.feature.services.*\" --debug-jvm",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Run Feature Services test class with debugger enabled"
+        },
+        {
+            "type": "shell",
+            "label": "Test: Debug Single Test Class",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew test --tests \"com.example.YourTestClass\" --debug-jvm",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Debug a single test class (edit class name as needed)"
+        },
+        {
+            "type": "shell",
+            "label": "Test: Run All Tests",
+            "command": "export $(grep -v '^#' .env.test | xargs) && ./gradlew test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Run all tests without debugger"
+        },
+
+        //
+        // Dependency Updates Task
+        //
+        {
+            "type": "shell",
+            "label": "Dependency Updates",
+            "command": "./gradlew dependencyUpdates",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Check for dependency updates (requires Gradle Versions Plugin)"
+        }
+    ]
+}

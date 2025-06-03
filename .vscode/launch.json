@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Attach to Gradle Test JVM",
+            "request": "attach",
+            "hostName": "localhost",
+            "projectName": "core_backend_service",
+            "port": 5005
+        },
+        {
+            "type": "java",
+            "name": "Run Core Backend (bootRun)",
+            "request": "launch",
+            "mainClass": "com.example.ApplicationMain",
+            "projectName": "core_backend_service",
+            "vmArgs": "-Dspring.profiles.active=dev",
+            "env": {
+                "EXTERNAL_SERVICE_APP_ID": "your-app-id",
+                "EXTERNAL_SERVICE_API_KEY": "your-api-key",
+                "ASSET_CDN_URL": "your-cdn-url",
+                "AUTH_JWT_SECRET": "your-jwt-signing-key"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Run Core Backend (assemble)",
+            "request": "launch",
+            "mainClass": "com.example.ApplicationMain",
+            "projectName": "core_backend_service",
+            "vmArgs": "-Dspring.profiles.active=dev",
+            "preLaunchTask": "Assemble Project (No Tests)",
+            "env": {
+                "EXTERNAL_SERVICE_APP_ID": "your-app-id",
+                "EXTERNAL_SERVICE_API_KEY": "your-api-key",
+                "ASSET_CDN_URL": "your-cdn-url",
+                "AUTH_JWT_SECRET": "your-jwt-signing-key"
+            }
+        }
+    ]
+}
